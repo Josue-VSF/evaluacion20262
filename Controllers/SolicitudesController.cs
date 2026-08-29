@@ -29,9 +29,16 @@ namespace evaluacion20262.Controllers
                 _context.Solicitudes.Add(solicitud);
                 _context.SaveChanges();
                 TempData["Mensaje"] = "Solicitud registrada con éxito.";
-                return RedirectToAction("Create"); // O redirigir a Index cuando exista
+                return RedirectToAction("Index");
             }
             return View(solicitud);
+        }
+
+    // GET: Solicitudes/Index
+        public IActionResult Index()
+        {
+            var lista = _context.Solicitudes.OrderByDescending(s => s.FechaRegistro).ToList();
+            return View(lista);
         }
     }
 }

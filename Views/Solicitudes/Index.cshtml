@@ -1,0 +1,30 @@
+@model IEnumerable<evaluacion20262.Models.SolicitudServicio>
+
+<h2>Listado de Solicitudes</h2>
+<a asp-action="Create" class="btn btn-success mb-3">Nueva Solicitud</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Distrito</th>
+            <th>Servicio</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.Cliente</td>
+                <td>@item.Telefono</td>
+                <td>@item.Distrito</td>
+                <td>@item.TipoServicio</td>
+                <td>@item.Descripcion</td>
+            </tr>
+        }
+    </tbody>
+</table>

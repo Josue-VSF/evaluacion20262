@@ -10,9 +10,14 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# ¡LA SOLUCIÓN AL ERROR 139!
-# Apagar diagnósticos para evitar choque en servidores gratis
+# --- SOLUCIONES PARA RENDER FREE ---
+# 1. Evitar que crashee por límite de vigilantes de archivos (inotify)
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+# 2. Desactivar diagnósticos pesados
 ENV DOTNET_EnableDiagnostics=0
+# 3. Dar permisos de administrador (root) para que SQLite pueda crear su base de datos
+USER root
+# -----------------------------------
 
 # Exponer puerto para Render
 EXPOSE 8080

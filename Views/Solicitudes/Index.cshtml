@@ -1,30 +1,74 @@
 @model IEnumerable<evaluacion20262.Models.SolicitudServicio>
+@{
+    ViewData["Title"] = "Listado de Solicitudes";
 
-<h2>Listado de Solicitudes</h2>
-<a asp-action="Create" class="btn btn-success mb-3">Nueva Solicitud</a>
+    var badgeColors = new Dictionary<string, string>
+    {
+        { "Instalación", "bg-primary" },
+        { "Mantenimiento", "bg-warning text-dark" },
+        { "Revisión", "bg-info text-dark" },
+        { "Fuga", "bg-danger" }
+    };
+}
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Cliente</th>
-            <th>Teléfono</th>
-            <th>Distrito</th>
-            <th>Servicio</th>
-            <th>Descripción</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@item.Cliente</td>
-                <td>@item.Telefono</td>
-                <td>@item.Distrito</td>
-                <td>@item.TipoServicio</td>
-                <td>@item.Descripcion</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-0"><i class="bi bi-list-ul me-2 text-primary"></i>Listado de Solicitudes</h3>
+        <p class="text-muted mb-0 mt-1">Todas las solicitudes de servicio técnico registradas.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-success btn-lg shadow-sm"><i class="bi bi-plus-circle me-1"></i> Nueva Solicitud</a>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 text-muted border rounded-3 bg-light">
+        <i class="bi bi-inbox display-4"></i>
+        <h4 class="fw-light mt-2">Aún no hay solicitudes registradas</h4>
+        <p class="mb-3">Puedes crear la primera solicitud con el botón "Nueva Solicitud".</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive shadow-sm rounded-3">
+        <table class="table table-hover table-striped align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Teléfono</th>
+                    <th>Distrito</th>
+                    <th>Servicio</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var badge = badgeColors.ContainsKey(item.TipoServicio)
+                        ? badgeColors[item.TipoServicio]
+                        : "bg-secondary";
+                    <tr>
+                        <td class="text-nowrap">@item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="fw-semibold">@item.Cliente</td>
+                        <td>@item.Telefono</td>
+                        <td>@item.Distrito</td>
+                        <td><span class="badge @badge">@item.TipoServicio</span></td>
+                        <td>@item.Descripcion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+}

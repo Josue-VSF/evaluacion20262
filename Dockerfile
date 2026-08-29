@@ -9,6 +9,11 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
+
+# ¡LA SOLUCIÓN AL ERROR 139!
+# Apagar diagnósticos para evitar choque en servidores gratis
+ENV DOTNET_EnableDiagnostics=0
+
 # Exponer puerto para Render
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080

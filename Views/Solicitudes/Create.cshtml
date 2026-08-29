@@ -1,0 +1,39 @@
+@model evaluacion20262.Models.SolicitudServicio
+
+<h2>Registrar Solicitud de Servicio Técnico</h2>
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label>Cliente</label>
+        <input asp-for="Cliente" class="form-control" />
+        <span asp-validation-for="Cliente" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Teléfono</label>
+        <input asp-for="Telefono" class="form-control" />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Distrito</label>
+        <input asp-for="Distrito" class="form-control" />
+        <span asp-validation-for="Distrito" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label>Tipo de Servicio</label>
+        <select asp-for="TipoServicio" class="form-control">
+            <option value="Instalación">Instalación</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+            <option value="Revisión">Revisión</option>
+            <option value="Fuga">Fuga</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Descripción</label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar</button>
+</form>
